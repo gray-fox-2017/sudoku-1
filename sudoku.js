@@ -62,22 +62,22 @@ class Sudoku {
   }
 
   recursive(arr) {
-  	let number = arr.join("");
-  	number = number.replace(/0/, this.replace(number));
+    let number = arr.join("");
+    number = number.replace(/0/, this.replace(number));
 
-  	if (number.includes(0) === true) {
-  		return this.recursive(number.split(""));
-  	} else {
-  		return number.split("");
-  	}
+    if (number.includes(0) === true) {
+      return this.recursive(number.split(""));
+    } else {
+      return number.split("");
+    }
   }
 
   replace(param) {
-  	for (let i = 1; i <= 9; i++) {
-  		if (param.includes(i) === false) {
-  			return i;
-  		}
-  	}
+    for (let i = 1; i <= 9; i++) {
+      if (param.includes(i) === false) {
+        return i;
+      }
+    }
   }
 
 }
