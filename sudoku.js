@@ -4,17 +4,32 @@ class Sudoku {
   constructor(board_string) {
     this.puzzle = board_string;
     this.awal = [];
+    this.kosong = [];
   }
-
-  solve() {
+  plain() {
+    for(let i = 0; i < 9; i++) {
+      if(i === 0) {
+        this.awal[i] = this.puzzle.slice(i, 9);
+      } else {
+        this.awal[i] = this.puzzle.slice(9 * i, (9 * (i + 1)))
+      }
+      this.awal[i] = this.awal[i].split('')
+    }
+    return this.awal;
+  }
+  zeroes() {
     let array = this.awal;
-
     let kosong = [];
     for(let i = 0; i < array.length; i++) {
       for(let j = 0; j < array.length; j++) {
         if(array[i][j] == '0') kosong.push([i, j])
       }
     }
+    return kosong;
+  }
+  solve() {
+    let array = this.awal;
+    let kosong = this.zeroes();
 
     let kandidat = [];
     for(let i = 0; i < kosong.length; i++) {
@@ -61,22 +76,11 @@ class Sudoku {
         }
       }
       kandidat[i] = listAngka.split('');
-      if(listAngka !== '') {
-        array[kosong[i][0]][kosong[i][1]] = kandidat[i].splice(0, 1);
-      }
     }
-    return this.awal;
-  }
-
-  plain() {
-    this.awal = [];
-    for(let i = 0; i < 9; i++) {
-      if(i === 0) {
-        this.awal[i] = this.puzzle.slice(i, 9);
-      } else {
-        this.awal[i] = this.puzzle.slice(9 * i, (9 * (i + 1)))
+    for(let i = 0; i < kosong.length; i++) {
+      if(kandidat[i].length == 1) {
+        array[kosong[i][0]][kosong[i][1]] = kandidat[i][0];
       }
-      this.awal[i] = this.awal[i].split('')
     }
     return this.awal;
   }
@@ -103,18 +107,17 @@ class Sudoku {
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
 var fs = require('fs')
-var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
+var board_string = fs.readFileSync('set-02_project_euler_50-easy-puzzles.txt')
   .toString()
-  .split("\n")[0]
+  .split("\n")[17]
 
 var game = new Sudoku(board_string)
 var game2 = new Sudoku('609238745274561398853947621486352179792614583531879264945723816328196457167485932')
 
 // Remember: this will just fill out what it can and not "guess"
-game.plain()
-game.solve()
-console.log(game.board())
+game.plain();
 
-game2.plain()
-game2.solve()
-console.log(game2.board())
+while(game.zeroes().length > 0) {
+  game.solve();
+}
+console.log(game.board())
