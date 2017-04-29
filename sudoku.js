@@ -49,9 +49,9 @@ class Sudoku {
 
     line = line.join("");
 
-    for (let k = 0; k < 4; k++) {
-      this.unsolved.splice(k * 4, 0, line);
-      this.solved.splice(k * 4, 0, line);
+    for (let k = 0; k < 16; k += 4) {
+      this.unsolved.splice(k, 0, line);
+      this.solved.splice(k, 0, line);
     }
 
     console.log("Init Board :");
