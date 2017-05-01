@@ -43,27 +43,7 @@ class Sudoku {
   cekZone() {
 
   }
-  // cekBaris(board, baris, value) {
-  //   for (let i = 0; i < board[row].length; i++) {
-  //     if (board[row][i] === value) {
-  //       return false
-  //     }
-  //   }
-  //   return true
-  // }
-  // cekKolom(board, kolom, value) {
-  //   for (let i = 0; i < this.board.length; i++) {
-  //     if (board[i][column] == value) {
-  //       return false
-  //     }
-  //   }
-  //   return true
-  // }
-  //
-  // blokKosong() {
-  //   let isiKosong = []
-  //   //for (let i = 0; i)
-  // }
+  
 
   // Returns a string representing the current state of the board
   board() {
