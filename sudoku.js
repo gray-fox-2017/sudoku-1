@@ -8,6 +8,7 @@ class Sudoku {
     this.sudokuGuess = "123456789".split("");
 
   }
+
   // return 2D array of sudoku
   sudokuArray(sudokuStr) {
     // Make 2D array from string
@@ -97,13 +98,15 @@ class Sudoku {
   // >> loop based on sudokuZeros.length
   // 1. make a guess array. >> array from [1,...,9]
   // 2. get the index of zero >> get the x and y coodinate
-  // 3. check all the condition the vertikal, horizonal, and box of zero koordinate
-  //    compare it with guess array >> true/false
+  // 3. check the index of vertikalArr, horizontalArr, and boxArr of checked zero koordinate
+  //    compare it with guess array >> -1 or not
   // 4. if true, it means the guessArrays value not founded yet, >> go to step 6
   // 5. if false, guessArray value is already there, continue
   // 6. update the value of sudokuArray from zeroArray's coodinated with guessArray.
   // 7. back to first step, until the loop complete
   // 8. display the solved board.
+
+  // return to update this.sudokuArray
   solve() {
     for (let i = 0; i < this.sudokuZeroIndex.length; i++) {
       let xZero = this.sudokuZeroIndex[i][0];
@@ -117,27 +120,18 @@ class Sudoku {
         } else {
           continue;
         }
-        // if (rowArr[j] != this.sudokuGuess[j] && rowArr[j] == 0) {
-        //   console.log("-------- row-------------");
-        //   this.sudokuArray[xZero][yZero] = this.sudokuGuess[j];
-        // } else if (columnArr[j] != this.sudokuGuess[j] && columnArr[j] == 0) {
-        //   console.log("-------- horizontal-------------");
-        //   this.sudokuArray[xZero][yZero] = this.sudokuGuess[j];
-        // } else if (boxArr[j] != this.sudokuGuess[j] && boxArr[j] == 0) {
-        //   console.log("--------box-------------");
-        //   this.sudokuArray[xZero][yZero] = this.sudokuGuess[j];
-        // } else {
-        //   continue;
-        // }
       }
     }
-    return this.sudokuArray
+    return this.sudokuArray;
   }
 
   // Returns a string representing the current state of the board
-  board() {
-    return this.firstBoard;
+  solvedBoard() {
+    return this.sudokuArray;
+  }
 
+  unsolvedBoard() {
+    return this.firstBoard;
   }
 }
 
@@ -151,10 +145,11 @@ var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
 
 var game = new Sudoku(board_string)
 console.log("=================== Unsolved Board ===================");
-console.log(game.board());
+console.log(game.unsolvedBoard());
 console.log("\n");
 console.log("=================== Solved Board =====================");
-console.log(game.solve());
+game.solve();
+console.log(game.solvedBoard());
 
 
 //
