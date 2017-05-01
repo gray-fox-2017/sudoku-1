@@ -56,7 +56,7 @@ class Sudoku {
     this._board=board;
   }
 
-  sudokuBoard() {
+  board() {
     let arrSplit = this._board.split('');
     let res=[];
     for(let i=0; i<arrSplit.length;i+=9){
@@ -82,7 +82,7 @@ var game = new Sudoku(board_string)
 // Remember: this will just fill out what it can and not "guess"
 console.log('\n')
 console.log('unsolved');
-console.log(game.sudokuBoard())
+console.log(game.board())
 game.solve()
 console.log('\n')
 console.log('solved');
