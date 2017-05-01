@@ -3,9 +3,11 @@
 class Sudoku {
   constructor(board_string) {
     this.sudokuArray = this.sudokuArray(board_string);
-    this.sudokuZeros = this.getZeroIndex();
+    this.sudokuZeroIndex = this.getZeroIndex();
+    this.sudokuGuess = [1,2,3,4,5,6,7,8,9];
 
   }
+  // return 2D array of sudoku
   sudokuArray(sudokuStr) {
     // Make 2D array from string
     let regx = /\d{9}/g;
@@ -17,6 +19,7 @@ class Sudoku {
 
   }
 
+  // return array of zero index
   getZeroIndex() {
     // make 2D array of index values of zero
     let indexArr = []
@@ -33,72 +36,100 @@ class Sudoku {
     return indexArr;
   }
 
-  checkAll() {}
-
-  verticalCheck(column) {
-    // check vertikal
-    let vertikalArr = [];
-    for (let i = 0; i < this.sudokuArray.length; i++) {
-      vertikal.push(this.sudokuArray[i][column]);
-    }
-    return vertikalArr;
-  }
-
-  horizontalCheck(row) {
-    // check horizontal
+  // return horizontal array of checked value
+  horizontalArr(row) {
     let horizontalArr = [];
     for (let i = 0; i < this.sudokuArray.length; i++) {
-      vertikalArr.push(this.sudokuArray[row][i]);
+      horizontalArr.push(this.sudokuArray[row][i]);
+    }
+    return horizontalArr;
+  }
+
+  //return vertical array of checked value
+  verticalArr(column) {
+    let vertikalArr = [];
+    for (let i = 0; i < this.sudokuArray.length; i++) {
+      vertikalArr.push(this.sudokuArray[i][column]);
     }
     return vertikalArr;
   }
 
-  boxCheck(koordinatArr) {
-    // check in box
+  // return box array of checked value
+  boxArr(x, y) {
     let boxCheckArr = [];
-    for (let i = 0; i < 3; i++) {
-      for (let j = 3; j < 6; j++) {
-        boxCheck.push(arr[i][j]);
+    let borderBox = this.boxGroup(x, y);
+    let xMin = borderBox[0];
+    let xMax = borderBox[1];
+    let yMin = borderBox[2];
+    let yMax = borderBox[3];
+    for (let i = xMin; i < xMax; i++) {
+      for (let j = yMin; j < yMax; j++) {
+        boxCheckArr.push(this.sudokuArray[i][j]);
       }
     }
     return boxCheckArr;
   }
 
-  // return border index
+  // return box's border index [Xmin, Xmax, Ymin, Ymax]
   boxGroup(x, y) {
     if (x < 3 && y < 3) {
-      return [3,3];
+      return [0,3,0,3];
     } else if (x < 6 && y < 3) {
-      return [6,3];
+      return [3,6,0,3];
     } else if (x < 9 && y < 3) {
-      return [9,3];
+      return [6,9,0,3];
     } else if (x < 3 && y < 6) {
-      return [3,6];
+      return [0,3,3,6];
     } else if (x < 6 && y < 6) {
-      return [6,6];
+      return [3,6,3,6];
     } else if (x < 9 && y < 6) {
-      return [9,6];
+      return [6,9,3,6];
     } else if (x < 3 && y < 9) {
-      return [3,9];
+      return [0,3,6,9];
     } else if (x < 6 && y < 9) {
-      return [6,9];
+      return [3,6,6,9];
     } else if (x < 9 && y < 9) {
-      return [9,9];
+      return [6,9,6,9];
     }
   }
 
+  // >> loop based on sudokuZeros.length
+  // 1. make a guess array. >> array from [1,...,9]
+  // 2. get the index of zero >> get the x and y coodinate
+  // 3. check all the condition the vertikal, horizonal, and box of zero koordinate
+  //    compare it with guess array >> true/false
+  // 4. if true, it means the guessArrays value not founded yet, >> go to step 6
+  // 5. if false, guessArray value is already there, continue
+  // 6. update the value of zeroArray[i][j] to guesArray from first index guessArray.
+  // 7. back to first step, until the loop complete
+  // 8. display the solved board.
   solve() {
-    // >> loop based on sudokuZeros.length
-    // 1. get the index of zero >> get the x and y coodinate
-    // 2. make a guess array. >> array from [1,...,9]
-    // 3. check all the condition the vertikal, horizonal, and box from zero koordinat
-    // with the guess array >> true/false
-    // 4. if true, it means the guessArrays value not founded yet, >> go to step 6
-    // 5. if false, guessArray value is already there, continue
-    // 6. update the value of zeroArray[i][j] to guesArray from first index guessArray.
-    // 7. back to first step, until the loop complete
-    // 8. display the solved board.
-
+    for (let i = 0; i < this.sudokuZeroIndex.length; i++) {
+      let xZero = this.sudokuZeroIndex[i][0];
+      let yZero = this.sudokuZeroIndex[i][1];
+      let rowArr = this.horizontalArr(xZero);
+      console.log("-------row arrr ---------");
+      console.log(rowArr);
+      let columnArr = this.verticalArr(yZero);
+      console.log("-------column arrr ---------");
+      console.log(columnArr);
+      let boxArr = this.boxArr(xZero, yZero);
+      for (let j = 0; j < this.sudokuGuess.length; j++) {
+        if (this.sudokuGuess[j] != rowArr[j] && this.sudokuGuess[j] == 0) {
+          console.log("-------- row-------------");
+          this.sudokuArray[xZero][yZero] = this.sudokuGuess[j];
+        } else if (this.sudokuGuess[j] != columnArr[j] && this.sudokuGuess[j] == 0) {
+          console.log("-------- horizontal-------------");
+          this.sudokuArray[xZero][yZero] = this.sudokuGuess[j];
+        } else if (this.sudokuGuess[j] != boxArr[j] && this.sudokuGuess[j] == 0) {
+          console.log("--------box-------------");
+          this.sudokuArray[xZero][yZero] = this.sudokuGuess[j];
+        } else {
+          continue;
+        }
+      }
+    }
+    return this.sudokuArray
   }
 
   // Returns a string representing the current state of the board
@@ -119,7 +150,7 @@ console.log(board_string);
 
 var game = new Sudoku(board_string)
 console.log(game);
-console.log(game.boxGrup(6, 2));
+console.log(game.solve());
 
 
 //
