@@ -4,6 +4,8 @@ class Sudoku {
   constructor(board_string) {
     this.default_board = []
     this.str = board_string
+    this.tes = Math.ceil((Math.random() * 9 )+ 1);
+    this.str2 = board_string.replace(/0/gi, this.tes)
     this.test = []
   }
   default() {
@@ -22,23 +24,42 @@ class Sudoku {
       this.default_board.splice(l, 0, "--------------------------------------")
     }
     // console.log(this.real_board);
-    console.log("panjang board : "+this.default_board.length);
+    //console.log("panjang board : "+this.default_board.length);
     return this.default_board
   }
 
-  solve() {
-    this.test = this.default_board
-    let num = Math.ceil(Math.random()*9) + 1;
-    for (let i = 0; i<9; i++) {
-      for (let j =0; j<9; j++) {
-        if (this.default_board[i][[j]] === 0) {
-          this.test[i][j] = num
-        }
-
-
+  randomSolve() {
+    for (let i = 0; i<this.str2.length; i+=9) {
+      this.tamp = []
+      for (let k = i; k<i+9; k++) {
+        this.tamp.push(parseInt(this.str2[k]))
       }
+      this.test.push(this.tamp)
     }
+    for (let j = 0; j<9; j++) {
+      this.test[j].splice(3, 0, "|")
+      this.test[j].splice(7, 0, "|")
+    }
+    for (let l= 0; l < 16; l+=4) {
+      this.test.splice(l, 0, "--------------------------------------")
+    }
+    // console.log(this.real_board);
+    //return this.test
     console.log(this.test);
+  }
+
+
+  solve() {
+    // this.test = this.default_board
+    // let num = Math.ceil(Math.random()*9) + 1;
+    // for (let i = 0; i<9; i++) {
+    //   for (let j =0; j<9; j++) {
+    //     if (this.default_board[i][[j]] === 0) {
+    //       this.test[i][j] = num
+    //     }
+    //   }
+    // }
+    // console.log(this.test);
   }
   cekZone() {
 
@@ -62,6 +83,7 @@ var game = new Sudoku(board_string)
 
 // Remember: this will just fill out what it can and not "guess"
 game.board()
-// game.solve()
+console.log("solve random : ");
+game.randomSolve()
 
 //console.log(game.board())
