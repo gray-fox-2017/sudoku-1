@@ -21,11 +21,7 @@ class Sudoku {
       perkolom.push(this.line[i]);
     }
 
-    for (let i=9; i<=this.line.length;i+=9) {
-      for (let a=1;a<=9;i++) {
-        perkolom[i].push(this.line(i+a));
-      }
-    }
+
 
     function definite(line) {
       for (i=0;i<line.length;i++) {
@@ -71,4 +67,4 @@ class Sudoku {
 var game = new Sudoku('105802000090076405200400819019007306762083090000061050007600030430020501600308900');
 
 // Remember: this will just fill out what it can and not "guess"
-console.log(game.solve());
+console.log(game.print_board());
