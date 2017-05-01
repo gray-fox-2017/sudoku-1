@@ -93,6 +93,7 @@ var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
   .split("\n")[0]
 
 var game = new Sudoku(board_string)
+//var game = new Sudoku("609238745274561398853947621486352179792614583531879264945723816328196457167485932")
 
 // Remember: this will just fill out what it can and not "guess"
 game.solve()
