@@ -85,8 +85,14 @@ class Sudoku {
                 if(this.checkSquare(row,col,x)){
                   this._board[row][col] = x;
                   break;
+                } else {
+                  this._board[row][col] = Math.ceil(Math.random()*9);
                 }
+              } else {
+                this._board[row][col] = Math.ceil(Math.random()*9);
               }
+            } else {
+              this._board[row][col] = Math.ceil(Math.random()*9);
             }
           }
         }
