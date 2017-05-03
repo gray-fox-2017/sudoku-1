@@ -16,7 +16,7 @@ class Sudoku {
       }
     }
 
-    let kandidat = [];
+    // let kandidat = [];
     for(let i = 0; i < kosong.length; i++) {
       let listAngka = '123456789'
       for(let j = 0; j < array.length; j++) {
