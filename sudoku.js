@@ -65,18 +65,32 @@ class Sudoku {
         array[kosong[i][0]][kosong[i][1]] = kandidat[i].splice(0, 1);
       }
     }
+
+    this.random();
     return this.awal;
   }
 
   plain() {
     this.awal = [];
     for(let i = 0; i < 9; i++) {
-      if(i === 0) {
-        this.awal[i] = this.puzzle.slice(i, 9);
-      } else {
-        this.awal[i] = this.puzzle.slice(9 * i, (9 * (i + 1)))
-      }
+      this.awal[i] = this.puzzle.slice(9 * i, (9 * (i + 1)))
       this.awal[i] = this.awal[i].split('')
+    }
+    return this.awal;
+  }
+
+  random() {
+    let array = this.awal;
+
+    let kosong = [];
+    for(let i = 0; i < array.length; i++) {
+      for(let j = 0; j < array.length; j++) {
+        if(array[i][j] == '0') kosong.push([i, j])
+      }
+    }
+
+    for(let i = 0; i < kosong.length; i++) {
+      array[kosong[i][0]][kosong[i][1]] = Math.ceil(Math.random() * 9);
     }
     return this.awal;
   }
@@ -108,13 +122,14 @@ var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
   .split("\n")[0]
 
 var game = new Sudoku(board_string)
-var game2 = new Sudoku('609238745274561398853947621486352179792614583531879264945723816328196457167485932')
+var game2 = new Sudoku('105802000090076405200400819019007306762083090000061050007600030430020501600308900')
 
 // Remember: this will just fill out what it can and not "guess"
-game.plain()
-game.solve()
-console.log(game.board())
-
+// game.plain()
+// game.solve()
+// console.log(game.board())
+game2.plain()
+console.log(game2.board())
 game2.plain()
 game2.solve()
 console.log(game2.board())
